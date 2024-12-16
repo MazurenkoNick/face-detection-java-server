@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+ option java_multiple_files = true;
+ option java_package = "com.mazurenko.faceanalyzer.proto";
+
+package face_detection;
+
+service FaceDetectionService {
+  rpc ValidateFace (FaceValidationRequest) returns (FaceValidationResponse);
+}
+
+
+message FaceValidationRequest {
+  bytes image = 1;
+}
+
+message FaceValidationResponse {
+  bool is_valid = 1;
+  string message = 2;
+}
