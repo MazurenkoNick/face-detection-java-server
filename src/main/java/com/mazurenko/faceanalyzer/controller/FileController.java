@@ -1,32 +1,43 @@
 package com.mazurenko.faceanalyzer.controller;
 
-import com.mazurenko.faceanalyzer.service.FileService;
+import com.mazurenko.faceanalyzer.data.FileEntity;
+import com.mazurenko.faceanalyzer.service.ImageFileService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class FileController {
 
-    private final FileService fileService;
+    private final ImageFileService imageFileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            fileService.saveFile(file);
-            return ResponseEntity.ok("File uploaded successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("File upload failed: " + e.getMessage());
-        }
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        imageFileService.saveImageFile(file);
+        return ResponseEntity.ok("File uploaded successfully");
     }
 
-    // todo: get
+    @GetMapping("/download/{name}")
+    public ResponseEntity<Void> downloadFile(@PathVariable String name, HttpServletResponse response)
+            throws IOException, SQLException {
+
+        FileEntity file = imageFileService.writeImageFileToOutputStreamAndReturn(name, response.getOutputStream());
+        setResponseHeaders(response, file);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private void setResponseHeaders(HttpServletResponse response, FileEntity file) {
+        response.setHeader(HttpHeaders.LAST_MODIFIED, String.valueOf(System.currentTimeMillis()));
+        response.setHeader(HttpHeaders.CONTENT_TYPE, file.getContentType());
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"");
+    }
 }

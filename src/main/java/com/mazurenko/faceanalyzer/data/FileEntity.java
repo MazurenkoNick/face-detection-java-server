@@ -19,6 +19,6 @@ public class FileEntity {
     private String contentType;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY) // Use lazy loading for large data
+    @Basic(fetch = FetchType.LAZY)
     private Blob fileBlob;
 }
