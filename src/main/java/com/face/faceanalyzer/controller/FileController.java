@@ -1,7 +1,7 @@
-package com.mazurenko.faceanalyzer.controller;
+package com.face.faceanalyzer.controller;
 
-import com.mazurenko.faceanalyzer.data.FileInfo;
-import com.mazurenko.faceanalyzer.service.ImageFileService;
+import com.face.faceanalyzer.data.FileInfo;
+import com.face.faceanalyzer.service.ImageFileService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

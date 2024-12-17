@@ -1,6 +1,6 @@
-package com.mazurenko.faceanalyzer.repository;
+package com.face.faceanalyzer.repository;
 
-import com.mazurenko.faceanalyzer.data.FileEntity;
+import com.face.faceanalyzer.data.FileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

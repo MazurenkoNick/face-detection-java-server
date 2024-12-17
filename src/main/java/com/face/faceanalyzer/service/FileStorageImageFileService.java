@@ -1,7 +1,7 @@
-package com.mazurenko.faceanalyzer.service;
+package com.face.faceanalyzer.service;
 
-import com.mazurenko.faceanalyzer.data.FileInfo;
-import com.mazurenko.faceanalyzer.proto.FaceValidationResponse;
+import com.face.faceanalyzer.data.FileInfo;
+import com.face.faceanalyzer.proto.FaceValidationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Value;

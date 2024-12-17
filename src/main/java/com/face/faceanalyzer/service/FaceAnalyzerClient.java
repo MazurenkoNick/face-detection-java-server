@@ -1,9 +1,9 @@
-package com.mazurenko.faceanalyzer.service;
+package com.face.faceanalyzer.service;
 
 import com.google.protobuf.ByteString;
-import com.mazurenko.faceanalyzer.proto.FaceDetectionServiceGrpc;
-import com.mazurenko.faceanalyzer.proto.FaceValidationRequest;
-import com.mazurenko.faceanalyzer.proto.FaceValidationResponse;
+import com.face.faceanalyzer.proto.FaceDetectionServiceGrpc;
+import com.face.faceanalyzer.proto.FaceValidationRequest;
+import com.face.faceanalyzer.proto.FaceValidationResponse;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.beans.factory.annotation.Value;

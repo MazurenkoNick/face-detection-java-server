@@ -1,4 +1,4 @@
-package com.mazurenko.faceanalyzer.util;
+package com.face.faceanalyzer.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

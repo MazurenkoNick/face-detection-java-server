@@ -1,4 +1,4 @@
-package com.mazurenko.faceanalyzer.data;
+package com.face.faceanalyzer.data;
 
 import jakarta.persistence.*;
 import lombok.Getter;

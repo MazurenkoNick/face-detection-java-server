@@ -8,7 +8,7 @@
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.mazurenko</groupId>
+    <groupId>com.face</groupId>
     <artifactId>face-analyzer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>face-analyzer</name>

@@ -1,6 +1,6 @@
-package com.mazurenko.faceanalyzer.service;
+package com.face.faceanalyzer.service;
 
-import com.mazurenko.faceanalyzer.data.FileInfo;
+import com.face.faceanalyzer.data.FileInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

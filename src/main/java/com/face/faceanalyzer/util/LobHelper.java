@@ -1,4 +1,4 @@
-package com.mazurenko.faceanalyzer.util;
+package com.face.faceanalyzer.util;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

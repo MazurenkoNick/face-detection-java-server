@@ -1,10 +1,10 @@
-package com.mazurenko.faceanalyzer.service;
+package com.face.faceanalyzer.service;
 
-import com.mazurenko.faceanalyzer.data.FileEntity;
-import com.mazurenko.faceanalyzer.data.FileInfo;
-import com.mazurenko.faceanalyzer.proto.FaceValidationResponse;
-import com.mazurenko.faceanalyzer.repository.FileRepository;
-import com.mazurenko.faceanalyzer.util.LobHelper;
+import com.face.faceanalyzer.data.FileEntity;
+import com.face.faceanalyzer.data.FileInfo;
+import com.face.faceanalyzer.proto.FaceValidationResponse;
+import com.face.faceanalyzer.repository.FileRepository;
+import com.face.faceanalyzer.util.LobHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
