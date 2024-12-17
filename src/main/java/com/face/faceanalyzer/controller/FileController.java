@@ -1,6 +1,7 @@
 package com.face.faceanalyzer.controller;
 
 import com.face.faceanalyzer.data.FileInfo;
+import com.face.faceanalyzer.data.FileUploadedResponse;
 import com.face.faceanalyzer.service.ImageFileService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class FileController {
     private final ImageFileService imageFileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<FileUploadedResponse> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         imageFileService.saveImageFile(file);
-        return ResponseEntity.ok("File uploaded successfully");
+        return ResponseEntity.ok(new FileUploadedResponse("File uploaded successfully"));
     }
 
     @GetMapping("/download/{name}")
