@@ -1,6 +1,6 @@
 package com.mazurenko.faceanalyzer.controller;
 
-import com.mazurenko.faceanalyzer.data.FileEntity;
+import com.mazurenko.faceanalyzer.data.FileInfo;
 import com.mazurenko.faceanalyzer.service.ImageFileService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +29,15 @@ public class FileController {
     public ResponseEntity<Void> downloadFile(@PathVariable String name, HttpServletResponse response)
             throws IOException, SQLException {
 
-        FileEntity file = imageFileService.writeImageFileToOutputStreamAndReturn(name, response.getOutputStream());
+        FileInfo file = imageFileService.writeImageFileToOutputStreamAndReturn(name, response.getOutputStream());
         setResponseHeaders(response, file);
 
         return ResponseEntity.ok().build();
     }
 
-    private void setResponseHeaders(HttpServletResponse response, FileEntity file) {
+    private void setResponseHeaders(HttpServletResponse response, FileInfo file) {
         response.setHeader(HttpHeaders.LAST_MODIFIED, String.valueOf(System.currentTimeMillis()));
-        response.setHeader(HttpHeaders.CONTENT_TYPE, file.getContentType());
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"");
+        response.setHeader(HttpHeaders.CONTENT_TYPE, file.contentType());
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.name() + "\"");
     }
 }

@@ -9,6 +9,7 @@ import io.grpc.ManagedChannelBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,8 +28,19 @@ public class FaceAnalyzerClient {
     }
 
     public FaceValidationResponse isValidFacePicture(InputStream is) throws IOException {
-        ByteString byteString = ByteString.readFrom(is);
-        FaceValidationRequest request = FaceValidationRequest.newBuilder().setImage(byteString).build();
-        return blockingStub.validateFace(request);
+        try (is) {
+            ByteString byteString = ByteString.readFrom(is);
+            FaceValidationRequest request = FaceValidationRequest.newBuilder().setImage(byteString).build();
+            return blockingStub.validateFace(request);
+        } catch (Exception e) {
+            return buildErrorValidationResponse(e);
+        }
+    }
+
+    private static FaceValidationResponse buildErrorValidationResponse(Exception e) {
+        return FaceValidationResponse.newBuilder()
+                .setIsValid(false)
+                .setMessage(e.getMessage())
+                .build();
     }
 }
