@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  postgres-db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: iot_pr
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - face-detection-network
+
+  face-detection-service-py:
+    image: 4nm2/face-detection-service-py:latest
+    container_name: face-detection-service-py
+    ports:
+      - "50051:50051"
+    restart: always
+    networks:
+      - face-detection-network
+
+  face-detection-service:
+    image: 4nm2/face-detection-java-server:latest
+    container_name: face-detection-service
+    environment:
+      - SPRING_APPLICATION_NAME=face-analyzer
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/iot_pr
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - FACE_ANALYZER_SERVER_HOST=face-detection-service-py
+      - FACE_ANALYZER_SERVER_PORT=50051
+      - FILE_STORAGE_METHOD=directory
+      - FILE_STORAGE_DIRECTORY_PATH=/resources
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+      - face-detection-service-py
+    restart: always
+    networks:
+      - face-detection-network
+
+volumes:
+  postgres-data:
+
+networks:
+  face-detection-network:
+    driver: bridge
