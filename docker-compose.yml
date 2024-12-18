@@ -25,10 +25,23 @@ services:
     networks:
       - face-detection-network
 
+  face-analyzer-ui:
+    image: 4nm2/face-analyzer-ui:latest
+    container_name: face-analyzer-ui
+    environment:
+      - SERVER_HOST=face-detection-network
+      - SERVER_HOST=8080
+    ports:
+      - "3000:3000"
+    restart: always
+    networks:
+      - face-detection-network
+
   face-detection-service:
     image: 4nm2/face-detection-java-server:latest
     container_name: face-detection-service
     environment:
+      - ALLOWED_ORIGINS=http://localhost:3000,http://${face-analyzer-ui}:3000
       - SPRING_APPLICATION_NAME=face-analyzer
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/iot_pr
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -41,6 +54,7 @@ services:
       - "8080:8080"
     depends_on:
       - postgres-db
+      - face-analyzer-ui
       - face-detection-service-py
     restart: always
     networks:
