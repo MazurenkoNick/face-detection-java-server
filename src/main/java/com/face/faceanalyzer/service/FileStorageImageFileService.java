@@ -2,6 +2,7 @@ package com.face.faceanalyzer.service;
 
 import com.face.faceanalyzer.data.FileInfo;
 import com.face.faceanalyzer.proto.FaceValidationResponse;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.TimeUnit;
 
 import static java.nio.file.Files.deleteIfExists;
 
@@ -32,10 +34,11 @@ public class FileStorageImageFileService implements ImageFileService {
         this.faceAnalyzerClient = faceAnalyzerClient;
     }
 
+    @SneakyThrows
     @Override
-    public void saveImageFile(MultipartFile multipartFile) throws IOException {
+    public void saveImageFile(MultipartFile multipartFile) {
         InputStream is = multipartFile.getInputStream();
-        FaceValidationResponse validationResponse = faceAnalyzerClient.isValidFacePicture(is);
+        FaceValidationResponse validationResponse = faceAnalyzerClient.isValidFacePicture(is).get(10, TimeUnit.SECONDS);
         if (!validationResponse.getIsValid()) {
             boolean isDeleted = deleteIfExists(getFilePath(multipartFile.getOriginalFilename()));
             log.info("Delete status after invalid image response: {}", isDeleted);

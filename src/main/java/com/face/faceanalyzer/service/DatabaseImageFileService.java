@@ -2,7 +2,6 @@ package com.face.faceanalyzer.service;
 
 import com.face.faceanalyzer.data.FileEntity;
 import com.face.faceanalyzer.data.FileInfo;
-import com.face.faceanalyzer.proto.FaceValidationResponse;
 import com.face.faceanalyzer.repository.FileRepository;
 import com.face.faceanalyzer.util.LobHelper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @Service
@@ -60,13 +62,16 @@ public class DatabaseImageFileService implements ImageFileService {
 
     private void validateImage(InputStream is) {
         try {
-            FaceValidationResponse validationResponse = faceAnalyzerClient.isValidFacePicture(is);
+            var validationResponse =
+                    faceAnalyzerClient.isValidFacePicture(is).get(10, TimeUnit.SECONDS);
 
             if (!validationResponse.getIsValid()) {
                 throw new IllegalArgumentException(validationResponse.getMessage());
             }
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            throw new RuntimeException(e);
         }
     }
 }

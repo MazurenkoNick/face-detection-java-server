@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -27,8 +26,7 @@ public class FileController {
     }
 
     @GetMapping("/download/{name}")
-    public ResponseEntity<Void> downloadFile(@PathVariable String name, HttpServletResponse response)
-            throws IOException, SQLException {
+    public ResponseEntity<Void> downloadFile(@PathVariable String name, HttpServletResponse response) throws IOException {
 
         FileInfo file = imageFileService.writeImageFileToOutputStreamAndReturn(name, response.getOutputStream());
         setResponseHeaders(response, file);
