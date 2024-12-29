@@ -6,11 +6,11 @@ syntax = "proto3";
 package face_detection;
 
 service FaceDetectionService {
-  rpc ValidateFace (FaceValidationRequest) returns (FaceValidationResponse);
+  rpc ValidateFace (stream ImageChunk) returns (FaceValidationResponse);
 }
 
 
-message FaceValidationRequest {
+message ImageChunk  {
   bytes image = 1;
 }
 
