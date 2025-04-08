@@ -9,7 +9,6 @@ service FaceDetectionService {
   rpc ValidateFace (stream ImageChunk) returns (FaceValidationResponse);
 }
 
-
 message ImageChunk  {
   bytes image = 1;
 }

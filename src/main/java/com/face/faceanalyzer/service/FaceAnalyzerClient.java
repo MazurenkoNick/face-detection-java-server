@@ -27,6 +27,7 @@ public class FaceAnalyzerClient {
                 .forAddress(host, port)
                 .usePlaintext()
                 .build();
+
         this.stub = FaceDetectionServiceGrpc.newStub(channel);
     }
 
